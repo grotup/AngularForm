@@ -1,87 +1,54 @@
 <html>
 	<head>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.2/angular.min.js"></script>
-		<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-		<script src="./bower_components/angular-local-storage/angular-local-storage.min.js"></script>
-		
-		<script type="text/javascript">
-			var todo = angular
-				.module('todo', ['LocalStorageModule'])
-				.controller('todoctrl', [
-					'$scope',
-					'localStorageService', 
-					function ($scope, localStorageService){
-						$scope.title = 'My Todo List';
-
-						if(!localStorageService.get('tasks')){
-							$scope.tasks = [];
-						}else{
-							$scope.tasks = localStorageService.get('tasks');
-						}
-
-						$scope.users = [
-								{"username" : "Sylvain"}, 
-								{"username": "Anastasia"},
-								{"username" : "Jean Michel"}
-							];
-
-						// pour éviter une valeur vide dans les filtres, on définit une valeur à l'utilisateur 
-						// @see http://stackoverflow.com/questions/12654631/why-does-angularjs-include-an-empty-option-in-select
-						if(!localStorageService.get('user_selected')){
-							$scope.filter = {user : $scope.users[0]};
-						}else{
-							$scope.filter = {user : localStorageService.get('user_selected')};
-						}
-						
-						$scope.add_task = function(){
-							$scope.tasks.push(
-								{
-									'title' : $scope.todo_lb,
-									'done'  : false,
-									"user"  : $scope.filter.user
-								});
-							$scope.todo_lb = '';
-							localStorageService.set('tasks',$scope.tasks);
-						}
-						
-						$scope.archiver = function(data){
-							if(!data){
-								return;
-							}
-							
-							data.done = true;
-							localStorageService.set('tasks',$scope.tasks);
-						}
-						
-						$scope.supprimer_tache = function(index){
-							if(index < 0){
-								return;
-							}
-							$scope.tasks.splice(index,1);
-							localStorageService.set('tasks',$scope.tasks);
-						}
-						
-						$scope.delete_all_tasks = function(){
-							$scope.tasks = [];
-							localStorageService.set('tasks',$scope.tasks);
-						}
-
-						$scope.update_user = function(){
-							localStorageService.set('user_selected',$scope.filter.user);	
-						}
-					}
-				]
-			);
-		</script>
+		<script type="text/javascript" src="bower_components/angularjs/angular.min.js"></script>
+		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="bower_components/angular-local-storage/angular-local-storage.min.js"></script>		
+		<script src="js/app.js"></script>
 	</head>
 	<body ng-app="todo">
-		<div ng-controller="todoctrl" class="MyTodo col-md-3 col-md-offset-5" style="padding:50px;">
+		<div ng-controller="crud" class="col-md-3 well">
+			<h1>{{title}}</h1>
+			<h2>Table :</h2>
+			<ul class="list-group" ng-repeat="book in books">
+				<li class="list-group-item">
+					<h4 class="list-group-item-heading">{{book.title}}</h4>
+					Author : {{book.author}}
+					<span class="badge">{{book.year}}</span>
+				</li>
+			</ul>
+			<button class="btn btn-primary" data-toggle="modal" data-target="#bookAddModal">Ajouter</button>
+
+			<div class="modal fade" id="bookAddModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">Add a book</div>
+						<div class="modal-content">
+							<form role="form">
+								<div class="form-group" style="padding:5px;">
+									<label>Title :</label>
+									<input type="text" class="form-control" ng-model="book_title" ng-required>
+									<label>Author :</label>
+									<input type="text" class="form-control" ng-model="book_author">
+									<label>Year :</label>
+									<input type="text" class="form-control" ng-model="book_year">
+									<button class="btn btn-primary" ng-click="add_book()">Add</button>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">Footer</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div ng-controller="todoctrl" class="MyTodo col-md-3 well">
+			<h1>{{title}}</h1>
 				<form role="form">
 					<select ng-change="update_user()" ng-model="filter.user" class="form-control" ng-options="user.username for user in users"></select><br>
 				</form>
-				<h1>{{title}}</h1>
+				
 				<ul class="todos list-group" ng-repeat="task in tasks | filter:filter">
 					<li ng-if="!task.done" class="list-group-item" ng-click="archiver(task)">{{task.title}}</li>
 				</ul>
@@ -96,6 +63,8 @@
 			<ul class="todos list-group" ng-repeat="task in tasks | filter:filter">
 				<li ng-click="supprimer_tache($index)" ng-if="task.done" class="list-group-item disabled"><span class="glyphicon glyphicon-star"></span>{{task.title}}</li>
 			</ul>
+
+			
 		</div>
 	</body>
 </html>
