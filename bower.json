@@ -1,0 +1,21 @@
+{
+  "name": "AngularForm",
+  "version": "0.0.0",
+  "homepage": "https://github.com/grotup/AngularForm",
+  "authors": [
+    "= <=>"
+  ],
+  "description": "Todo app with Angular",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-local-storage": "~0.0.7"
+  }
+}
