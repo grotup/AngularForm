@@ -3,68 +3,12 @@
 		<script type="text/javascript" src="bower_components/angularjs/angular.min.js"></script>
 		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="bower_components/angular-route/angular-route.min.js"></script>
 		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="bower_components/angular-local-storage/angular-local-storage.min.js"></script>		
 		<script src="js/app.js"></script>
 	</head>
-	<body ng-app="todo">
-		<div ng-controller="crud" class="col-md-3 well">
-			<h1>{{title}}</h1>
-			<h2>Table :</h2>
-			<ul class="list-group" ng-repeat="book in books">
-				<li class="list-group-item">
-					<h4 class="list-group-item-heading">{{book.title}}</h4>
-					Author : {{book.author}}
-					<span class="badge">{{book.year}}</span>
-				</li>
-			</ul>
-			<button class="btn btn-primary" data-toggle="modal" data-target="#bookAddModal">Ajouter</button>
-
-			<div class="modal fade" id="bookAddModal">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">Add a book</div>
-						<div class="modal-content">
-							<form role="form">
-								<div class="form-group" style="padding:5px;">
-									<label>Title :</label>
-									<input type="text" class="form-control" ng-model="book_title" ng-required>
-									<label>Author :</label>
-									<input type="text" class="form-control" ng-model="book_author">
-									<label>Year :</label>
-									<input type="text" class="form-control" ng-model="book_year">
-									<button class="btn btn-primary" ng-click="add_book()">Add</button>
-								</div>
-							</form>
-						</div>
-						<div class="modal-footer">Footer</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div ng-controller="todoctrl" class="MyTodo col-md-3 well">
-			<h1>{{title}}</h1>
-				<form role="form">
-					<select ng-change="update_user()" ng-model="filter.user" class="form-control" ng-options="user.username for user in users"></select><br>
-				</form>
-				
-				<ul class="todos list-group" ng-repeat="task in tasks | filter:filter">
-					<li ng-if="!task.done" class="list-group-item" ng-click="archiver(task)">{{task.title}}</li>
-				</ul>
-			<form role="form">
-				<div class="form-group">
-					<input type="text" class="form-control" ng-model="todo_lb"/>
-				</div>
-				<button class="btn btn-default" ng-click="add_task()">Ajouter</button>
-				<button class="btn btn-default" ng-click="delete_all_tasks()">Vider</button>
-			</form>
-			<H1>Archive :</H1>
-			<ul class="todos list-group" ng-repeat="task in tasks | filter:filter">
-				<li ng-click="supprimer_tache($index)" ng-if="task.done" class="list-group-item disabled"><span class="glyphicon glyphicon-star"></span>{{task.title}}</li>
-			</ul>
-
-			
-		</div>
+	<body ng-app="app">
+		<div ng-view></div>		
 	</body>
 </html>

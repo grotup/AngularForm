@@ -1,0 +1,23 @@
+<div ng-controller="todoctrl" class="MyTodo col-md-3 well">
+	<h1>{{title}}</h1>
+		<form role="form">
+			<select ng-change="update_user()" ng-model="filter.user" class="form-control" ng-options="user.username for user in users"></select><br>
+		</form>
+		
+		<ul class="todos list-group" ng-repeat="task in tasks | filter:filter">
+			<li ng-if="!task.done" class="list-group-item" ng-click="archiver(task)">{{task.title}}</li>
+		</ul>
+	<form role="form">
+		<div class="form-group">
+			<input type="text" class="form-control" ng-model="todo_lb"/>
+		</div>
+		<button class="btn btn-default" ng-click="add_task()">Ajouter</button>
+		<button class="btn btn-default" ng-click="delete_all_tasks()">Vider</button>
+	</form>
+	<H1>Archive :</H1>
+	<ul class="todos list-group" ng-repeat="task in tasks | filter:filter">
+		<li ng-click="supprimer_tache($index)" ng-if="task.done" class="list-group-item disabled"><span class="glyphicon glyphicon-star"></span>{{task.title}}</li>
+	</ul>
+
+	
+</div>

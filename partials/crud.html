@@ -1,0 +1,35 @@
+<div ng-controller="crud" class="col-md-3 well">
+	<h1>{{title}}</h1>
+	<h2>Table :</h2>
+	<ul class="list-group" ng-repeat="book in books">
+		<li class="list-group-item">
+			<h4 class="list-group-item-heading">{{book.title}}</h4>
+			Author : {{book.author}}
+			<span class="badge">{{book.year}}</span>
+		</li>
+	</ul>
+	<button class="btn btn-primary" data-toggle="modal" data-target="#bookAddModal">Ajouter</button>
+
+	<div class="modal fade" id="bookAddModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">Add a book</div>
+				<form role="form">
+					<div class="modal-content">
+						<div class="form-group" style="padding:5px;">
+							<label>Title :</label>
+							<input type="text" class="form-control" ng-model="book_title" ng-required>
+							<label>Author :</label>
+							<input type="text" class="form-control" ng-model="book_author">
+							<label>Year :</label>
+							<input type="text" class="form-control" ng-model="book_year">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" ng-click="add_book()">Add</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

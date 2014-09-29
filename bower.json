@@ -16,6 +16,12 @@
     "tests"
   ],
   "dependencies": {
-    "angular-local-storage": "~0.0.7"
-  }
+    "angular-local-storage": "~0.0.7",
+    "bootstrap": "~3.2.0",
+    "jquery": "~2.1.1",
+    "angularjs": "~1.2.25",
+    "angular-route": "~1.2.25",
+    "angular-sanitize": "~1.2.25"
+  },
+  "private": true
 }
