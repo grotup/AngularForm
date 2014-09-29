@@ -1,14 +1,18 @@
-var app = angular.module('app', ['LocalStorageModule', 'ngRoute']);
+var app = angular.module('app', ['LocalStorageModule', 'ngRoute', 'ngSanitize']);
 
 app.config(function($routeProvider){
 	$routeProvider
 		.when('/todo', {
 			templateUrl	: 'partials/todo.html',
-			controller  : 'todoCtrl'
+			controller  : 'todoctrl'
 		})
 		.when('/crud', {
 			templateUrl : 'partials/crud.html',
 			controller : 'crud'
+		}).
+		when('/weather',{
+			templateUrl : 'partials/weather.html',
+			controller : 'weather'
 		})
 		.otherwise({
 			redirectTo : '/todo'
@@ -75,6 +79,7 @@ app.controller('todoctrl', ['$scope','localStorageService', function ($scope, lo
 		localStorageService.set('user_selected',$scope.filter.user);	
 	}
 }]);
+
 app.controller('crud', ['$scope',function($scope){
 	$scope.title = 'Mon test CRUD';
 
@@ -92,7 +97,25 @@ app.controller('crud', ['$scope',function($scope){
 	];
 
 	$scope.add_book = function(){
-		alert('Test !');
-		//$scope.books.push(data);
+		$scope.books.push({
+			"title" : $scope.book_title,
+			"author": $scope.book_author,
+			"year"	: $scope.book_year
+		});
 	};
+}]);
+
+app.controller('weather', ['$scope', '$http', '$sce', function($scope, $http){
+	var endpoint = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22nome%2C%20ak%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys"
+
+	var test;
+
+	$http({
+		method : 'GET',
+		url : endpoint,
+	}).success(function(data, status, headers, config){
+		$scope.test = data.query.results.channel.item.description;
+	}).error(function(data, status, headers, config){
+		alert('Error !');
+	});
 }]);

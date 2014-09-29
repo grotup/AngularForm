@@ -1,11 +1,12 @@
-<div ng-controller="crud" class="col-md-3 well">
+<div ng-controller="crud" class="col-md-6 well">
 	<h1>{{title}}</h1>
 	<h2>Table :</h2>
 	<ul class="list-group" ng-repeat="book in books">
 		<li class="list-group-item">
 			<h4 class="list-group-item-heading">{{book.title}}</h4>
-			Author : {{book.author}}
-			<span class="badge">{{book.year}}</span>
+			Author : {{book.author}}<br>
+			Year   : {{book.year}}<br>
+			Description : {{book.description}}
 		</li>
 	</ul>
 	<button class="btn btn-primary" data-toggle="modal" data-target="#bookAddModal">Ajouter</button>
@@ -14,19 +15,19 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">Add a book</div>
-				<form role="form">
+				<form role="form" name="book_add">
 					<div class="modal-content">
 						<div class="form-group" style="padding:5px;">
 							<label>Title :</label>
-							<input type="text" class="form-control" ng-model="book_title" ng-required>
+							<input type="text" class="form-control" name="book_title" ng-model="book.title" required>
 							<label>Author :</label>
-							<input type="text" class="form-control" ng-model="book_author">
+							<input type="text" class="form-control" name="book_author" ng-model="book.author" required>
 							<label>Year :</label>
-							<input type="text" class="form-control" ng-model="book_year">
+							<input type="text" class="form-control" name="book_year" ng-model="book.year" required>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-primary" ng-click="add_book()">Add</button>
+					
+						Test : {{book_add.book_title.$valid}}
+						<button class=" form-control btn btn-primary" data-dismiss="modal" ng-click="add_book()" ng-disabled="!book_add.book_title.$valid">Add</button>
 					</div>
 				</form>
 			</div>
