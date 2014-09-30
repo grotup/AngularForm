@@ -9,10 +9,14 @@ app.config(function($routeProvider){
 		.when('/crud', {
 			templateUrl : 'partials/crud.html',
 			controller : 'crud'
-		}).
-		when('/weather',{
+		})
+		.when('/weather',{
 			templateUrl : 'partials/weather.html',
 			controller : 'weather'
+		})
+		.when('/pocket', {
+			templateUrl : 'partials/pocket.html',
+			controller : 'pocket'
 		})
 		.otherwise({
 			redirectTo : '/todo'
@@ -118,4 +122,31 @@ app.controller('weather', ['$scope', '$http', '$sce', function($scope, $http){
 	}).error(function(data, status, headers, config){
 		alert('Error !');
 	});
+}]);
+
+app.controller('pocket', ['$scope', '$http', function($scope, $http){
+	var consumerKey = '22620-675c1afa5e4a09ea03092d2d';
+	var request_token_endpoint = 'https://getpocket.com/v3/oauth/request/';
+	var redirect_uri = '/#pocket';
+
+	$scope.auth = function(){
+		$http({
+			method  : 'POST',
+			url 	: request_token_endpoint,
+			headers : {
+				"Content-Type" : "application/json; charset=UTF-8",
+				"X-Accept" : "application/json"
+			},
+			data : {
+				"consumer_key" : consumerKey,
+				"redirect_uri" : redirect_uri
+			}
+		}).success(function(data, status, headers, config){
+			$scope.data = data;
+			console.log(data);
+		}).error(function(data, status, headers, config){
+			alert(headers);
+		});
+	};
+
 }]);
